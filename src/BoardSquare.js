@@ -2,13 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import Square from './Square';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
-import {moveKnight} from './Game'
+import {moveCard, set_ID} from './Game'
 
 class BoardSquare extends Component {
   render() {
       const { x, y, connectDropTarget, isOver } = this.props;
       const black = true;
-      console.log(x,y);
 
       return connectDropTarget(
           <div style = {{
@@ -28,7 +27,7 @@ class BoardSquare extends Component {
                         width: '100%',
                         zIndex: 1,
                         opacity: 0.5,
-                        backgroundColor: 'yellow',
+                        backgroundColor: '#333333',
 
                   }} />
 
@@ -41,7 +40,9 @@ class BoardSquare extends Component {
 
 const squareTarget = {
     drop(props, monitor) {
-        moveKnight(props.x, props.y);
+        console.log(props)
+        moveCard(props.x, props.y);
+        set_ID(null)
     }
 };
 
@@ -59,4 +60,4 @@ BoardSquare.propTypes = {
     isOver: PropTypes.bool.isRequired
 };
 
-export default DropTarget(ItemTypes.KNIGHT, squareTarget, collect)(BoardSquare);
+export default DropTarget(ItemTypes.CARD, squareTarget, collect)(BoardSquare);

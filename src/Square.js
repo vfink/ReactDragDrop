@@ -7,9 +7,9 @@ export default class Square extends Component {
       const stroke = black ? 'black' : 'black';
       return <div style ={{
           backgroundColor: '#f5f5f5',
-          borderColor: fill  ,
-          borderWidth: 'thin',
-          borderStyle: 'solid',
+          //borderColor: fill  ,
+          //borderWidth: 'thin',
+          //borderStyle: 'solid',
           color: stroke,
           height: '100%',
           width: '100%'

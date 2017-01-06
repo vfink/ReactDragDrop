@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import Knight from './Knight';
+import Card from './Card';
 import Square from './Square';
-import {moveKnight} from './Game'
+import {moveCard} from './Game'
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import BoardSquare from './BoardSquare'
+import {makeCard} from './Game'
 
 
 /*
@@ -15,7 +16,7 @@ export var BoardCreater = (wGiven, hGiven) => {
     };
 
     render() {
-            <Board knightPosition={knightPosition} h={hGiven} w={wGiven} />,
+            <Board cardPosition={cardPosition} h={hGiven} w={wGiven} />,
     };
 
 }
@@ -26,24 +27,31 @@ class Board extends Component {
     renderSquare(a) {
     const x = a%this.props.w;
     const y = Math.floor(a/this.props.w);
+    //for (let j = 0; j<this.props.cardPosition.length; j++){
+    //    if (this.props.cardPosition[j] == [x,y]){
+    //        var id = j;
+    //        break;}}
     return (
         <div key={a}
             style={{ width: (100/this.props.w).toString() + '%', height: (100/this.props.h).toString() + '%' }}>
                 <BoardSquare x={x} y={y}>
-                    {this.renderPiece(x, y)}
+                    {this.renderCard(x, y)}
                 </BoardSquare>
     </div>
     )
 
     }
 
-    renderPiece(x,y){
-        const [knightX,knightY] = this.props.knightPosition;
-        if (x === knightX && y === knightY) {
-            return <Knight /> ;
+    renderCard(x,y){
+        for(let n = 0; n<this.props.cardPosition.length;n++) {
+            const [cardX, cardY] = this.props.cardPosition[n];
+            if (x === cardX && y === cardY) {
+                return <Card id = {n} />;
+            }
         }
     }
     render() {
+
         const squares = [];
         for(let i = 0; i<(this.props.h * this.props.w);i++){
                 squares.push(this.renderSquare(i));
@@ -54,7 +62,9 @@ class Board extends Component {
             display: 'flex',
             flexWrap: 'wrap'
         }}>
+
             {squares}
+            <button onClick = {makeCard}> New Card</button>
         </div>
     );
     }
@@ -63,9 +73,10 @@ class Board extends Component {
 Board.propTypes = {
     w: PropTypes.number.isRequired,
     h: PropTypes.number.isRequired,
-    knightPosition: PropTypes.arrayOf(
-        PropTypes.number.isRequired
+    cardPosition: PropTypes.arrayOf(
+        PropTypes.array.isRequired
     ).isRequired
+
 
 };
 
